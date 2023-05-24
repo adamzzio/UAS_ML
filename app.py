@@ -154,13 +154,9 @@ def save_feedback(option):
     
 st.sidebar.markdown("### Feedback")
 
-if "feedback" not in st.session_state:
-            set_feedback("Puas")
-
 option = st.sidebar.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
-            ('Puas', 'Tidak Puas'),
-            index=get_feedback())
+            ('Puas', 'Tidak Puas'))
 
 submit_feed = st.sidebar.button("Submit Feedback", key="feedback_button")
 if submit_feed:
