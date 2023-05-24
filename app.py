@@ -123,7 +123,6 @@ if submit:
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'negative'
-        st.dataframe(df_result)
         initialize_firebase()
         to_db = {'Age':age,
                  'Gender':gender,
@@ -135,6 +134,7 @@ if submit:
                  'Troponin':troponin,
                  'Result':'negative'}
         save_data_to_firebase(to_db)
+        st.success("Data berhasil disimpan ke database")
         
     else:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
@@ -142,7 +142,6 @@ if submit:
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'positive'
-        st.dataframe(df_result)
         initialize_firebase()
         to_db = {'Age':age,
                  'Gender':gender,
@@ -154,6 +153,7 @@ if submit:
                  'Troponin':troponin,
                  'Result':'positive'}
         save_data_to_firebase(to_db)
+        st.success("Data berhasil disimpan ke database")
 
     st.markdown('<hr>', unsafe_allow_html=True)
     # FEEDBACK SESSIONS
