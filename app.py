@@ -124,6 +124,7 @@ if submit:
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'negative'
         st.dataframe(df_result)
+        initialize_firebase()
         to_db = {'Age':age,
                  'Gender':gender,
                  'Heart rate':heart_rate,
@@ -142,6 +143,7 @@ if submit:
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'positive'
         st.dataframe(df_result)
+        initialize_firebase()
         to_db = {'Age':age,
                  'Gender':gender,
                  'Heart rate':heart_rate,
