@@ -129,6 +129,21 @@ troponin = st.number_input(label = 'Masukkan kadar troponin pasien : ', min_valu
 
 submit = st.button("Submit", use_container_width=True)
 
+#  SIDEBAR
+def save_feedback(option):
+    feed = {"kepuasan": option}
+    save_data_to_firebase_feedback(feed)
+    
+st.sidebar.markdown("### Feedback")
+
+option = st.sidebar.selectbox('Bagaimana perasaan Anda setelah menggunakan Web App ini?',
+                              ('Puas', 'Tidak Puas'))
+
+submit_feed = st.sidebar.button("Submit Feedback", key="feedback_button")
+if submit_feed:
+    save_feedback(option)
+    st.sidebar.success("Feedback Anda berhasil disimpan ke database")
+
 # ===== BACK-END SESSIONS ======
 # Menyimpan data hasil prediksi ke variabel global
 def set_result(result, result_proba):
@@ -170,9 +185,9 @@ def predict_result(data):
     result_proba = result_proba * 100
     return result, result_proba
 
-def save_feedback(option):
-    feed = {"kepuasan": option}
-    save_data_to_firebase_feedback(feed)
+# def save_feedback(option):
+#     feed = {"kepuasan": option}
+#     save_data_to_firebase_feedback(feed)
 
 if submit:
     result, result_proba = predict_result(df_result.values)
@@ -196,21 +211,6 @@ if submit:
         }
         save_data_to_firebase(data)
         st.success("Data Anda berhasil disimpan ke database")
-        st.sidebar.markdown("### Feedback")
-
-        if "feedback" not in st.session_state:
-            set_feedback("Puas")
-
-        option = st.sidebar.selectbox(
-            'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
-            ('Puas', 'Tidak Puas'),
-            index=get_feedback())
-
-        submit_feed = st.sidebar.button("Submit Feedback", key="feedback_button")
-        if submit_feed:
-            set_feedback(option)
-            save_feedback(option)
-            st.sidebar.success("Feedback Anda berhasil disimpan ke database")
         
 #         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
 #         img_left, img_right = st.columns(2)
