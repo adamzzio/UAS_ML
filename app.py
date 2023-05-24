@@ -16,7 +16,7 @@ import firebase_admin
 import csv
 import google.cloud
 from firebase_admin import credentials, firestore
-# from google.cloud import firestore
+from google.cloud import firestore
 
 # etc
 from PIL import Image
