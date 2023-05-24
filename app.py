@@ -130,23 +130,6 @@ troponin = st.number_input(label = 'Masukkan kadar troponin pasien : ', min_valu
 submit = st.button("Submit", use_container_width=True)
 
 # ===== BACK-END SESSIONS ======
-# Menyimpan data hasil prediksi ke variabel global
-def set_result(result, result_proba):
-    st.session_state.result = result
-    st.session_state.result_proba = result_proba
-
-# Mengambil data hasil prediksi dari variabel global
-def get_result():
-    return st.session_state.result, st.session_state.result_proba
-
-# Menyimpan opsi kepuasan pengguna ke variabel global
-def set_feedback(option):
-    st.session_state.feedback = option
-
-# Mengambil opsi kepuasan pengguna dari variabel global
-def get_feedback():
-    return st.session_state.feedback
-
 # SAVE RESULT TO DATAFRAME
 df_result = pd.DataFrame({'Age':[age],
                           'Gender':[gender],
@@ -176,7 +159,6 @@ def save_feedback(option):
 
 if submit:
     result, result_proba = predict_result(df_result.values)
-    set_result(result, result_proba)
 
     if result == 0:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan negatif memiliki penyakit jantung"
@@ -201,14 +183,10 @@ if submit:
 
         option = st.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
-            ('Puas', 'Tidak Puas'),
-            key="feedback_selectbox",
-            index=get_feedback() if "feedback" in st.session_state else 0)
+            ('Puas', 'Tidak Puas'))
 
-        submit_feed = st.button("Submit Feedback", key="feedback_button")
+        submit_feed = st.button("Submit Feedback", key="feedback_button", on_click=save_feedback, args=(option,))
         if submit_feed:
-            set_feedback(option)
-            save_feedback(option)
             st.success("Feedback Anda berhasil disimpan ke database")
         
 #         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
