@@ -12,10 +12,11 @@ import pickle as pkl
 from lightgbm import LGBMClassifier
 
 # for database
-# import firebase_admin
-# import csv
-# import google.cloud
-# from firebase_admin import credentials, firestore
+import firebase_admin
+import csv
+import google.cloud
+from firebase_admin import credentials, firestore
+# from google.cloud import firestore
 
 # etc
 from PIL import Image
