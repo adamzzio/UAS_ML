@@ -161,6 +161,8 @@ if submit:
         st.success("Data berhasil disimpan ke database")
         
         # FEEDBACK SESSIONS
+        st.markdown('<hr>', unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
         img_left, img_right = st.columns(2)
         with img_left:
             st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
@@ -171,12 +173,12 @@ if submit:
         with feed_left:
             puas = st.button('Puas', use_container_width=True)
             if puas:
-                save_data_to_firebase_feedback({'feedback':'Puas'})
+                save_data_to_firebase_feedback({'kepuasan':'Puas'})
                 st.success("Feedback Anda berhasil disimpan ke database")
         with feed_right:
             tdk_puas = st.button('Tidak Puas', use_container_width=True)
             if tdk_puas:
-                save_data_to_firebase_feedback({'feedback':'Tidak Puas'})
+                save_data_to_firebase_feedback({'kepuasan':'Tidak Puas'})
                 st.success("Feedback Anda berhasil disimpan ke database")
         
     else:
