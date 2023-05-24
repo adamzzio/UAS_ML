@@ -49,6 +49,8 @@ def save_data_to_firebase(data):
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(data)
 
+initialize_firebase()
+
 # ===== DEVELOP FRONT-END =====
 # SET HEADER PAGE
 def load_lottieurl(url):
@@ -123,7 +125,6 @@ if submit:
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'negative'
-        initialize_firebase()
         to_db = {'Age':age,
                  'Gender':gender,
                  'Heart rate':heart_rate,
@@ -142,7 +143,6 @@ if submit:
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'positive'
-        initialize_firebase()
         to_db = {'Age':age,
                  'Gender':gender,
                  'Heart rate':heart_rate,
