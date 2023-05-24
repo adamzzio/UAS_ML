@@ -6,6 +6,7 @@ import numpy as np
 # for web app
 import streamlit as st
 from streamlit_lottie import st_lottie
+import streamlit.caching as caching
 
 # for modelling
 import pickle as pkl
@@ -144,40 +145,49 @@ gender_dict = {'Laki-Laki':1,
                'Perempuan':0}
 df_result['Gender'] = df_result['Gender'].map(gender_dict)
 
-# DO PREDICTIONS
-if submit:
-    result = model.predict(df_result.values)
-    result_proba = model.predict_proba(df_result.values)
-    # result_proba = str(result_proba)
+@st.cache_resource(allow_output_mutation=True)
+def predict_result(data):
+    result = model.predict(data)
+    result_proba = model.predict_proba(data)
     result_proba = np.max(result_proba[0])
     result_proba = np.round(result_proba, 2)
     result_proba = result_proba * 100
+    return result, result_proba
+
+# DO PREDICTIONS
+if submit:
+    result, result_proba = predict_result(df_result.values)
     if result == 0:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan negatif memiliki penyakit jantung"
         st.success(text_result)
         st.balloons()
-        # SUBMIT PREDICTIONS TO DATABASE
+
         df_result['Result'] = 'negative'
-        data = {'Age':age,
-                'Gender':gender,
-                'Heart rate':heart_rate,
-                'Systolic blood pressure':systolic,
-                'Diastolic blood pressure':diastolic,
-                'Blood sugar':blood_sugar,
-                'CK-MB':ckmb,
-                'Troponin':troponin,
-                'Result':'negative'}
+        data = {
+            'Age': age,
+            'Gender': gender,
+            'Heart rate': heart_rate,
+            'Systolic blood pressure': systolic,
+            'Diastolic blood pressure': diastolic,
+            'Blood sugar': blood_sugar,
+            'CK-MB': ckmb,
+            'Troponin': troponin,
+            'Result': 'negative'
+        }
         save_data_to_firebase(data)
         st.success("Data Anda berhasil disimpan ke database")
         st.markdown('<hr>', unsafe_allow_html=True)
+
         option = st.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
             ('Puas', 'Tidak Puas'))
         submit_feed = st.button("Submit Feedback", use_container_width=True)
+
         if submit_feed:
-            feed = {"kepuasan":option}
-            save_data_to_firebase_feedback(feed)
+            feed = {"kepuasan": option}
+            save_data_to_firebase_feedback()
             st.success("Feedback Anda berhasil disimpan ke database")
+            caching.clear_cache()
         
 #         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
 #         img_left, img_right = st.columns(2)
