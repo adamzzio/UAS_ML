@@ -156,6 +156,7 @@ def predict_result(data):
 # DO PREDICTIONS
 if submit:
     result, result_proba = predict_result(df_result.values)
+
     if result == 0:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan negatif memiliki penyakit jantung"
         st.success(text_result)
@@ -177,9 +178,16 @@ if submit:
         st.success("Data Anda berhasil disimpan ke database")
         st.markdown('<hr>', unsafe_allow_html=True)
 
+        # Cache feedback options
+        feedback_options = st.session_state.get("feedback_options")
+        if feedback_options is None:
+            feedback_options = ('Puas', 'Tidak Puas')
+            st.session_state["feedback_options"] = feedback_options
+
         option = st.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
-            ('Puas', 'Tidak Puas'))
+            feedback_options)
+
         submit_feed = st.button("Submit Feedback", use_container_width=True)
 
         if submit_feed:
