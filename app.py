@@ -154,24 +154,20 @@ if submit:
     result_proba = result_proba * 100
     if result == 0:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan negatif memiliki penyakit jantung"
-        st.error(text_result)
+        st.success(text_result)
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'negative'
-        to_db = {'Age':age,
-                 'Gender':gender,
-                 'Heart rate':heart_rate,
-                 'Systolic blood pressure':systolic,
-                 'Diastolic blood pressure':diastolic,
-                 'Blood sugar':blood_sugar,
-                 'CK-MB':ckmb,
-                 'Troponin':troponin,
-                 'Result':'negative'}
-        save_data_to_firebase(to_db)
-        st.success("Data berhasil disimpan ke database")
+        data = {'Age':age,
+                'Gender':gender,
+                'Heart rate':heart_rate,
+                'Systolic blood pressure':systolic,
+                'Diastolic blood pressure':diastolic,
+                'Blood sugar':blood_sugar,
+                'CK-MB':ckmb,
+                'Troponin':troponin,
+                'Result':'negative'}
         
-        # FEEDBACK SESSIONS
-        st.markdown('<hr>', unsafe_allow_html=True)
         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
         img_left, img_right = st.columns(2)
         with img_left:
@@ -183,17 +179,17 @@ if submit:
         with feed_left:
             puas = st.button('Puas', use_container_width=True)
             if puas:
-                save_data_to_firebase_feedback({'kepuasan':'Puas'})
+                save_data_to_db(data, {'kepuasan':'Puas'})
                 st.success("Feedback Anda berhasil disimpan ke database")
         with feed_right:
             tdk_puas = st.button('Tidak Puas', use_container_width=True)
             if tdk_puas:
-                save_data_to_firebase_feedback({'kepuasan':'Tidak Puas'})
+                save_data_to_db(data, {'kepuasan':'Tidak Puas'})
                 st.success("Feedback Anda berhasil disimpan ke database")
         
     else:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
-        st.success(text_result)
+        st.error(text_result)
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'positive'
