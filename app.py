@@ -36,6 +36,18 @@ def load_model():
 
 model = load_model()
 
+# ===== INITIALIZE DATABASE CONNECTION =====
+# Inisialisasi Firebase Admin SDK
+def initialize_firebase():
+    cred = credentials.Certificate("uas-ml-3772c-firebase-adminsdk-x4nhg-b013b10236.json")
+    firebase_admin.initialize_app(cred)
+    
+def save_data_to_firebase(data):
+    db = firestore.client()
+    collection_name = "dataset_ML"
+    doc_ref = db.collection(collection_name).document()
+    doc_ref.set(data)
+
 # ===== DEVELOP FRONT-END =====
 # SET HEADER PAGE
 def load_lottieurl(url):
@@ -109,19 +121,36 @@ if submit:
         st.error(text_result)
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
-        df_result['Result'] = result
-        df_result['Result'] = df_result['Result'].replace(0, 'negative')
-        df_result['Result'] = df_result['Result'].replace(1, 'positive')
+        df_result['Result'] = 'negative'
         st.dataframe(df_result)
+        to_db = {'Age':age,
+                 'Gender':gender,
+                 'Heart rate':heart_rate,
+                 'Systolic blood pressure':systolic,
+                 'Diastolic blood pressure':diastolic,
+                 'Blood sugar':blood_sugar,
+                 'CK-MB':ckmb,
+                 'Troponin':troponin,
+                 'Result':'negative'}
+        save_data_to_firebase(to_db)
+        
     else:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
         st.success(text_result)
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
-        df_result['Result'] = result
-        df_result['Result'] = df_result['Result'].replace(0, 'negative')
-        df_result['Result'] = df_result['Result'].replace(1, 'positive')
+        df_result['Result'] = 'positive'
         st.dataframe(df_result)
+        to_db = {'Age':age,
+                 'Gender':gender,
+                 'Heart rate':heart_rate,
+                 'Systolic blood pressure':systolic,
+                 'Diastolic blood pressure':diastolic,
+                 'Blood sugar':blood_sugar,
+                 'CK-MB':ckmb,
+                 'Troponin':troponin,
+                 'Result':'positive'}
+        save_data_to_firebase(to_db)
 
     st.markdown('<hr>', unsafe_allow_html=True)
     # FEEDBACK SESSIONS
