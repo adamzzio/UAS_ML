@@ -26,17 +26,6 @@ import requests
 pageicon = Image.open("aset_foto/CardioCheck.png")
 st.set_page_config(page_title="CardioCheck Web App", page_icon=pageicon, layout="wide")
 
-# ===== LOAD MODEL & DATA =====
-
-filename_model = 'finalized_model_lgbm_tuning.sav'
-
-@st.cache_resource
-def load_model():
-    model = pkl.load(open(filename_model, 'rb'))
-    return model
-
-model = load_model()
-
 # ===== INITIALIZE DATABASE CONNECTION =====
 # Inisialisasi Firebase Admin SDK
 def initialize_firebase():
@@ -49,7 +38,17 @@ def save_data_to_firebase(data):
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(data)
 
-initialize_firebase()
+# ===== LOAD MODEL & DATA =====
+
+filename_model = 'finalized_model_lgbm_tuning.sav'
+
+@st.cache_resource
+def load_model():
+    model = pkl.load(open(filename_model, 'rb'))
+    initialize_firebase()
+    return model
+
+model = load_model()
 
 # ===== DEVELOP FRONT-END =====
 # SET HEADER PAGE
