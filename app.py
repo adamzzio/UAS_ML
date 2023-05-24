@@ -27,17 +27,35 @@ pageicon = Image.open("aset_foto/CardioCheck.png")
 st.set_page_config(page_title="CardioCheck Web App", page_icon=pageicon, layout="wide")
 
 # ===== INITIALIZE DATABASE CONNECTION =====
-# Inisialisasi Firebase Admin SDK
-def initialize_firebase():
-    cred = credentials.Certificate("uas-ml-3772c-firebase-adminsdk-x4nhg-b013b10236.json")
-    firebase_admin.initialize_app(cred)
+# # Inisialisasi Firebase Admin SDK
+# def initialize_firebase():
+#     cred = credentials.Certificate("uas-ml-3772c-firebase-adminsdk-x4nhg-b013b10236.json")
+#     firebase_admin.initialize_app(cred)
     
+# def save_data_to_firebase(data):
+#     db = firestore.client()
+#     collection_name = "dataset_ML"
+#     doc_ref = db.collection(collection_name).document()
+#     doc_ref.set(data)
+
+# Buat fungsi baru untuk mendapatkan referensi ke Firebase App
+def get_firebase_app():
+    # Periksa apakah aplikasi Firebase sudah ada
+    if not firebase_admin._apps:
+        # Jika belum ada, inisialisasi Firebase Admin SDK
+        cred = credentials.Certificate("uas-ml-3772c-firebase-adminsdk-x4nhg-b013b10236.json")
+        firebase_admin.initialize_app(cred)
+    # Kembalikan referensi ke aplikasi Firebase
+    return firebase_admin.get_app()
+
+# Ganti pemanggilan fungsi save_data_to_firebase dengan menggunakan get_firebase_app()
 def save_data_to_firebase(data):
-    db = firestore.client()
+    app = get_firebase_app()
+    db = firestore.client(app)
     collection_name = "dataset_ML"
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(data)
-
+    
 # ===== LOAD MODEL & DATA =====
 
 filename_model = 'finalized_model_lgbm_tuning.sav'
@@ -45,7 +63,6 @@ filename_model = 'finalized_model_lgbm_tuning.sav'
 @st.cache_resource
 def load_model():
     model = pkl.load(open(filename_model, 'rb'))
-    initialize_firebase()
     return model
 
 model = load_model()
