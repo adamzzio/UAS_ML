@@ -167,25 +167,34 @@ if submit:
                 'CK-MB':ckmb,
                 'Troponin':troponin,
                 'Result':'negative'}
+        save_data_to_firebase()
+        st.success("Data Anda berhasil disimpan ke database")
+        st.markdown('<hr>', unsafe_allow_html=True)
+        option = st.selectbox(
+            'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
+            ('Puas', 'Tidak Puas'))
+        feed = {"kepuasan":option}
+        save_data_to_firebase_feedback()
+        st.success("Feedback Anda berhasil disimpan ke database")
         
-        st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
-        img_left, img_right = st.columns(2)
-        with img_left:
-            st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
-        with img_right:
-            st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
+#         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
+#         img_left, img_right = st.columns(2)
+#         with img_left:
+#             st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
+#         with img_right:
+#             st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
 
-        feed_left, feed_right = st.columns(2)
-        with feed_left:
-            puas = st.button('Puas', use_container_width=True)
-            if puas:
-                save_data_to_db(data, {'kepuasan':'Puas'})
-                st.success("Feedback Anda berhasil disimpan ke database")
-        with feed_right:
-            tdk_puas = st.button('Tidak Puas', use_container_width=True)
-            if tdk_puas:
-                save_data_to_db(data, {'kepuasan':'Tidak Puas'})
-                st.success("Feedback Anda berhasil disimpan ke database")
+#         feed_left, feed_right = st.columns(2)
+#         with feed_left:
+#             puas = st.button('Puas', use_container_width=True)
+#             if puas:
+#                 save_data_to_db(data, {'kepuasan':'Puas'})
+#                 st.success("Feedback Anda berhasil disimpan ke database")
+#         with feed_right:
+#             tdk_puas = st.button('Tidak Puas', use_container_width=True)
+#             if tdk_puas:
+#                 save_data_to_db(data, {'kepuasan':'Tidak Puas'})
+#                 st.success("Feedback Anda berhasil disimpan ke database")
         
     else:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
@@ -202,27 +211,50 @@ if submit:
                 'CK-MB':ckmb,
                 'Troponin':troponin,
                 'Result':'positive'}
+        save_data_to_firebase()
+        st.success("Data Anda berhasil disimpan ke database")
+        st.markdown('<hr>', unsafe_allow_html=True)
+        option = st.selectbox(
+            'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
+            ('Puas', 'Tidak Puas'))
+        feed = {"kepuasan":option}
+        save_data_to_firebase_feedback()
+        st.success("Feedback Anda berhasil disimpan ke database")
+#         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
+#         st.error(text_result)
+#         st.balloons()
+#         # SUBMIT PREDICTIONS TO DATABASE
+#         df_result['Result'] = 'positive'
+#         data = {'Age':age,
+#                 'Gender':gender,
+#                 'Heart rate':heart_rate,
+#                 'Systolic blood pressure':systolic,
+#                 'Diastolic blood pressure':diastolic,
+#                 'Blood sugar':blood_sugar,
+#                 'CK-MB':ckmb,
+#                 'Troponin':troponin,
+#                 'Result':'positive'}
         
-        st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
-        img_left, img_right = st.columns(2)
-        with img_left:
-            st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
-        with img_right:
-            st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
+#         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
+#         img_left, img_right = st.columns(2)
+#         with img_left:
+#             st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
+#         with img_right:
+#             st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
 
-        feed_left, feed_right = st.columns(2)
-        with feed_left:
-            puas = st.button('Puas', use_container_width=True)
-            if puas:
-                save_data_to_db(data, {'kepuasan':'Puas'})
-                st.success("Feedback Anda berhasil disimpan ke database")
-        with feed_right:
-            tdk_puas = st.button('Tidak Puas', use_container_width=True)
-            if tdk_puas:
-                save_data_to_db(data, {'kepuasan':'Tidak Puas'})
-                st.success("Feedback Anda berhasil disimpan ke database")
+#         feed_left, feed_right = st.columns(2)
+#         with feed_left:
+#             puas = st.button('Puas', use_container_width=True)
+#             if puas:
+#                 save_data_to_db(data, {'kepuasan':'Puas'})
+#                 st.success("Feedback Anda berhasil disimpan ke database")
+#         with feed_right:
+#             tdk_puas = st.button('Tidak Puas', use_container_width=True)
+#             if tdk_puas:
+#                 save_data_to_db(data, {'kepuasan':'Tidak Puas'})
+#                 st.success("Feedback Anda berhasil disimpan ke database")
 
-    st.markdown('<hr>', unsafe_allow_html=True)
+#     st.markdown('<hr>', unsafe_allow_html=True)
     # FEEDBACK SESSIONS
     # _, mid_feed, _ = st.columns([1,6,1])
     # with mid_feed:
