@@ -56,22 +56,22 @@ def save_data_to_firebase(data):
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(data)
     
-def save_data_to_firebase_feedback(feedback):
-    app = get_firebase_app()
-    db = firestore.client(app)
-    collection_name = "feedback"
-    doc_ref = db.collection(collection_name).document()
-    doc_ref.set(feedback)
+# def save_data_to_firebase_feedback(feedback):
+#     app = get_firebase_app()
+#     db = firestore.client(app)
+#     collection_name = "feedback"
+#     doc_ref = db.collection(collection_name).document()
+#     doc_ref.set(feedback)
 
-def save_data_to_db(data, feedback):
-    app = get_firebase_app()
-    db = firestore.client(app)
-    collection_name_data = "dataset_ML"
-    collection_name_feed = 'feedback'
-    doc_ref_data = db.collection(collection_name_data).document()
-    doc_ref_feed = db.collection(collection_name_feed).document()
-    doc_ref_data.set(data)
-    doc_ref_feed.set(feedback)
+# def save_data_to_db(data, feedback):
+#     app = get_firebase_app()
+#     db = firestore.client(app)
+#     collection_name_data = "dataset_ML"
+#     collection_name_feed = 'feedback'
+#     doc_ref_data = db.collection(collection_name_data).document()
+#     doc_ref_feed = db.collection(collection_name_feed).document()
+#     doc_ref_data.set(data)
+#     doc_ref_feed.set(feedback)
     
 # ===== LOAD MODEL & DATA =====
 
@@ -145,6 +145,7 @@ gender_dict = {'Laki-Laki':1,
 df_result['Gender'] = df_result['Gender'].map(gender_dict)
 
 # DO PREDICTIONS
+@st.cache_resource
 if submit:
     result = model.predict(df_result.values)
     result_proba = model.predict_proba(df_result.values)
