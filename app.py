@@ -109,19 +109,19 @@ if submit:
         st.error(text_result)
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
-        # df_result['Result'] = result
-        # df_result['Result'] = df_result['Result'].replace(0, 'negative')
-        # df_result['Result'] = df_result['Result'].replace(1, 'positive')
-        # st.dataframe(df_result)
+        df_result['Result'] = result
+        df_result['Result'] = df_result['Result'].replace(0, 'negative')
+        df_result['Result'] = df_result['Result'].replace(1, 'positive')
+        st.dataframe(df_result)
     else:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
         st.success(text_result)
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
-        # df_result['Result'] = result
-        # df_result['Result'] = df_result['Result'].replace(0, 'negative')
-        # df_result['Result'] = df_result['Result'].replace(1, 'positive')
-        # st.dataframe(df_result)
+        df_result['Result'] = result
+        df_result['Result'] = df_result['Result'].replace(0, 'negative')
+        df_result['Result'] = df_result['Result'].replace(1, 'positive')
+        st.dataframe(df_result)
 
     st.markdown('<hr>', unsafe_allow_html=True)
     # FEEDBACK SESSIONS
