@@ -129,21 +129,6 @@ troponin = st.number_input(label = 'Masukkan kadar troponin pasien : ', min_valu
 
 submit = st.button("Submit", use_container_width=True)
 
-#  SIDEBAR
-def save_feedback(option):
-    feed = {"kepuasan": option}
-    save_data_to_firebase_feedback(feed)
-    
-st.sidebar.markdown("### Feedback")
-
-option = st.sidebar.selectbox('Bagaimana perasaan Anda setelah menggunakan Web App ini?',
-                              ('Puas', 'Tidak Puas'))
-
-submit_feed = st.sidebar.button("Submit Feedback", key="feedback_button")
-if submit_feed:
-    save_feedback(option)
-    st.sidebar.success("Feedback Anda berhasil disimpan ke database")
-
 # ===== BACK-END SESSIONS ======
 # Menyimpan data hasil prediksi ke variabel global
 def set_result(result, result_proba):
@@ -161,6 +146,27 @@ def set_feedback(option):
 # Mengambil opsi kepuasan pengguna dari variabel global
 def get_feedback():
     return st.session_state.feedback
+
+#  SIDEBAR
+def save_feedback(option):
+    feed = {"kepuasan": option}
+    save_data_to_firebase_feedback(feed)
+    
+st.sidebar.markdown("### Feedback")
+
+if "feedback" not in st.session_state:
+            set_feedback("Puas")
+
+option = st.sidebar.selectbox(
+            'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
+            ('Puas', 'Tidak Puas'),
+            index=get_feedback())
+
+submit_feed = st.sidebar.button("Submit Feedback", key="feedback_button")
+if submit_feed:
+    set_feedback(option)
+    save_feedback(option)
+    st.sidebar.success("Feedback Anda berhasil disimpan ke database")
 
 # SAVE RESULT TO DATAFRAME
 df_result = pd.DataFrame({'Age':[age],
