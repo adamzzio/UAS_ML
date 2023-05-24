@@ -153,7 +153,10 @@ def predict_result(data):
     result_proba = result_proba * 100
     return result, result_proba
 
-# DO PREDICTIONS
+def save_feedback(option):
+    feed = {"kepuasan": option}
+    save_data_to_firebase_feedback(feed)
+
 if submit:
     result, result_proba = predict_result(df_result.values)
 
@@ -178,21 +181,12 @@ if submit:
         st.success("Data Anda berhasil disimpan ke database")
         st.markdown('<hr>', unsafe_allow_html=True)
 
-        # Cache feedback options
-        feedback_options = st.session_state.get("feedback_options")
-        if feedback_options is None:
-            feedback_options = ('Puas', 'Tidak Puas')
-            st.session_state["feedback_options"] = feedback_options
-
         option = st.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
-            feedback_options)
+            ('Puas', 'Tidak Puas'))
 
-        submit_feed = st.button("Submit Feedback", use_container_width=True)
-
+        submit_feed = st.button("Submit Feedback", key="feedback_button", on_click=save_feedback, args=(option,))
         if submit_feed:
-            feed = {"kepuasan": option}
-            save_data_to_firebase_feedback()
             st.success("Feedback Anda berhasil disimpan ke database")
         
 #         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
