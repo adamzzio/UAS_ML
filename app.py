@@ -56,12 +56,12 @@ def save_data_to_firebase(data):
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(data)
     
-# def save_data_to_firebase_feedback(feedback):
-#     app = get_firebase_app()
-#     db = firestore.client(app)
-#     collection_name = "feedback"
-#     doc_ref = db.collection(collection_name).document()
-#     doc_ref.set(feedback)
+def save_data_to_firebase_feedback(feedback):
+    app = get_firebase_app()
+    db = firestore.client(app)
+    collection_name = "feedback"
+    doc_ref = db.collection(collection_name).document()
+    doc_ref.set(feedback)
 
 # def save_data_to_db(data, feedback):
 #     app = get_firebase_app()
