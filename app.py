@@ -144,7 +144,7 @@ gender_dict = {'Laki-Laki':1,
                'Perempuan':0}
 df_result['Gender'] = df_result['Gender'].map(gender_dict)
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def predict_result(data):
     result = model.predict(data)
     result_proba = model.predict_proba(data)
