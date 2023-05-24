@@ -6,7 +6,6 @@ import numpy as np
 # for web app
 import streamlit as st
 from streamlit_lottie import st_lottie
-import streamlit.caching as caching
 
 # for modelling
 import pickle as pkl
@@ -145,7 +144,7 @@ gender_dict = {'Laki-Laki':1,
                'Perempuan':0}
 df_result['Gender'] = df_result['Gender'].map(gender_dict)
 
-@st.cache_resource(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
 def predict_result(data):
     result = model.predict(data)
     result_proba = model.predict_proba(data)
@@ -187,7 +186,6 @@ if submit:
             feed = {"kepuasan": option}
             save_data_to_firebase_feedback()
             st.success("Feedback Anda berhasil disimpan ke database")
-            caching.clear_cache()
         
 #         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
 #         img_left, img_right = st.columns(2)
