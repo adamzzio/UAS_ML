@@ -173,9 +173,11 @@ if submit:
         option = st.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
             ('Puas', 'Tidak Puas'))
-        feed = {"kepuasan":option}
-        save_data_to_firebase_feedback()
-        st.success("Feedback Anda berhasil disimpan ke database")
+        submit_feed = st.button("Submit Feedback", use_container_width=True)
+        if submit_feed:
+            feed = {"kepuasan":option}
+            save_data_to_firebase_feedback()
+            st.success("Feedback Anda berhasil disimpan ke database")
         
 #         st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
 #         img_left, img_right = st.columns(2)
@@ -217,9 +219,11 @@ if submit:
         option = st.selectbox(
             'Bagaimana perasaan Anda setelah menggunakan Web App ini?',
             ('Puas', 'Tidak Puas'))
-        feed = {"kepuasan":option}
-        save_data_to_firebase_feedback()
-        st.success("Feedback Anda berhasil disimpan ke database")
+        submit_feed = st.button("Submit Feedback", use_container_width=True)
+        if submit_feed:
+            feed = {"kepuasan":option}
+            save_data_to_firebase_feedback()
+            st.success("Feedback Anda berhasil disimpan ke database")
 #         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
 #         st.error(text_result)
 #         st.balloons()
