@@ -56,6 +56,13 @@ def save_data_to_firebase(data):
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(data)
     
+def save_data_to_firebase_feedback(feedback):
+    app = get_firebase_app()
+    db = firestore.client(app)
+    collection_name = "feedback"
+    doc_ref = db.collection(collection_name).document()
+    doc_ref.set(feedback)
+    
 # ===== LOAD MODEL & DATA =====
 
 filename_model = 'finalized_model_lgbm_tuning.sav'
@@ -153,6 +160,25 @@ if submit:
         save_data_to_firebase(to_db)
         st.success("Data berhasil disimpan ke database")
         
+        # FEEDBACK SESSIONS
+        img_left, img_right = st.columns(2)
+        with img_left:
+            st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
+        with img_right:
+            st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
+
+        feed_left, feed_right = st.columns(2)
+        with feed_left:
+            puas = st.button('Puas', use_container_width=True)
+            if puas:
+                save_data_to_firebase_feedback({'feedback':'Puas'})
+                st.success("Feedback Anda berhasil disimpan ke database")
+        with feed_right:
+            tdk_puas = st.button('Tidak Puas', use_container_width=True)
+            if tdk_puas:
+                save_data_to_firebase_feedback({'feedback':'Tidak Puas'})
+                st.success("Feedback Anda berhasil disimpan ke database")
+        
     else:
         text_result = "Pasien Anda memiliki peluang " + str(result_proba) + "% dinyatakan positif memiliki penyakit jantung"
         st.success(text_result)
@@ -179,14 +205,14 @@ if submit:
     # st.title('Apakah Anda puas?')
     st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
 
-    img_left, img_right = st.columns(2)
-    with img_left:
-        st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
-    with img_right:
-        st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
+#     img_left, img_right = st.columns(2)
+#     with img_left:
+#         st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
+#     with img_right:
+#         st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
 
-    feed_left, feed_right = st.columns(2)
-    with feed_left:
-        st.button('Puas', use_container_width=True)
-    with feed_right:
-        st.button('Tidak Puas', use_container_width=True)
+#     feed_left, feed_right = st.columns(2)
+#     with feed_left:
+#         st.button('Puas', use_container_width=True)
+#     with feed_right:
+#         st.button('Tidak Puas', use_container_width=True)
