@@ -62,6 +62,16 @@ def save_data_to_firebase_feedback(feedback):
     collection_name = "feedback"
     doc_ref = db.collection(collection_name).document()
     doc_ref.set(feedback)
+
+def save_data_to_db(data, feedback):
+    app = get_firebase_app()
+    db = firestore.client(app)
+    collection_name_data = "dataset_ML"
+    collection_name_feed = 'feedback'
+    doc_ref_data = db.collection(collection_name_data).document()
+    doc_ref_feed = db.collection(collection_name_feed).document()
+    doc_ref_data.set(data)
+    doc_ref_feed.set(feedback)
     
 # ===== LOAD MODEL & DATA =====
 
@@ -187,17 +197,34 @@ if submit:
         st.balloons()
         # SUBMIT PREDICTIONS TO DATABASE
         df_result['Result'] = 'positive'
-        to_db = {'Age':age,
-                 'Gender':gender,
-                 'Heart rate':heart_rate,
-                 'Systolic blood pressure':systolic,
-                 'Diastolic blood pressure':diastolic,
-                 'Blood sugar':blood_sugar,
-                 'CK-MB':ckmb,
-                 'Troponin':troponin,
-                 'Result':'positive'}
-        save_data_to_firebase(to_db)
-        st.success("Data berhasil disimpan ke database")
+        data = {'Age':age,
+                'Gender':gender,
+                'Heart rate':heart_rate,
+                'Systolic blood pressure':systolic,
+                'Diastolic blood pressure':diastolic,
+                'Blood sugar':blood_sugar,
+                'CK-MB':ckmb,
+                'Troponin':troponin,
+                'Result':'positive'}
+        
+        st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
+        img_left, img_right = st.columns(2)
+        with img_left:
+            st.image(Image.open("aset_foto/aset_baiklah.jpg"), use_column_width=True)
+        with img_right:
+            st.image(Image.open("aset_foto/aset_gabahaya.jpg"), use_column_width=True)
+
+        feed_left, feed_right = st.columns(2)
+        with feed_left:
+            puas = st.button('Puas', use_container_width=True)
+            if puas:
+                save_data_to_db(data, {'kepuasan':'Puas'})
+                st.success("Feedback Anda berhasil disimpan ke database")
+        with feed_right:
+            tdk_puas = st.button('Tidak Puas', use_container_width=True)
+            if tdk_puas:
+                save_data_to_db(data, {'kepuasan':'Tidak Puas'})
+                st.success("Feedback Anda berhasil disimpan ke database")
 
     st.markdown('<hr>', unsafe_allow_html=True)
     # FEEDBACK SESSIONS
@@ -205,7 +232,7 @@ if submit:
     # with mid_feed:
     #     st.write('## Apakah Anda puas?')
     # st.title('Apakah Anda puas?')
-    st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
+#     st.markdown("<h1 style='text-align: center; color: white;'>Apakah Anda puas? </h1>", unsafe_allow_html=True)
 
 #     img_left, img_right = st.columns(2)
 #     with img_left:
