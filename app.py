@@ -167,7 +167,7 @@ if submit:
                 'CK-MB':ckmb,
                 'Troponin':troponin,
                 'Result':'negative'}
-        save_data_to_firebase()
+        save_data_to_firebase(data)
         st.success("Data Anda berhasil disimpan ke database")
         st.markdown('<hr>', unsafe_allow_html=True)
         option = st.selectbox(
@@ -213,7 +213,7 @@ if submit:
                 'CK-MB':ckmb,
                 'Troponin':troponin,
                 'Result':'positive'}
-        save_data_to_firebase()
+        save_data_to_firebase(data)
         st.success("Data Anda berhasil disimpan ke database")
         st.markdown('<hr>', unsafe_allow_html=True)
         option = st.selectbox(
