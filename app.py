@@ -145,7 +145,6 @@ gender_dict = {'Laki-Laki':1,
 df_result['Gender'] = df_result['Gender'].map(gender_dict)
 
 # DO PREDICTIONS
-@st.cache_resource
 if submit:
     result = model.predict(df_result.values)
     result_proba = model.predict_proba(df_result.values)
